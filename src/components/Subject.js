@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 class Subject extends Component {
-    __construct() {
-        console.log(this);
-    }
-
     render() {
         return (
             <header>
