@@ -9,21 +9,39 @@ class App extends Component {
         super(props);
 
         this.state = {
+            Mode:'Welcome',
             Subject:{title:'WEB', subTitle:'World Wide Web!'},
+            Welcome:{title:'Welcome', desc:'Hello, React!'},
             contents:[
-                {id:1, title:'HTML', desc:'HTML is for information'},
-                {id:2, title:'CSS', desc:'CSS is for design'},
-                {id:3, title:'JavaScript', desc:'JavaScript is for interactive'},
+                {id:1, subject:'WEB', title:'Welcome', subTitle:'World Wide Web!', desc:'HTML is for information'},
+                {id:2, subject:'HTML', title:'HTML', subTitle:'World Wide Web!', desc:'HTML is for information'},
+                {id:3, subject:'CSS', title:'CSS', subTitle:'World Wide Web!', desc:'CSS is for design'},
+                {id:4, subject:'JavaScript', title:'JavaScript', subTitle:'World Wide Web!', desc:'JavaScript is for interactive'},
             ]
         }
     }
 
     render() {
+
+        let subject = null;
+        let mode = null;
+        let mainText = null;
+
+        if (this.state.Mode === 'Welcome') {
+            subject = this.state.Subject;
+            mode = this.state.Welcome;
+            mainText = this.state.Welcome;
+        } else if (this.state.Mode === 'Read') {
+            subject = this.state.contents[0];
+            mode = this.state.Subject;
+            mainText = this.state.contents[0];
+        }
+
         return (
             <div className="App">
-                <Subject title={this.state.Subject.title} subTitle={this.state.Subject.subTitle}></Subject>
+                <Subject title={subject.title} subTitle={subject.subTitle}></Subject>
                 <TOC data={this.state.contents}></TOC>
-                <MainText title="HTML" text="HTML is HyperText Markup Language."></MainText>
+                <MainText title={mainText.title} text={mainText.desc}></MainText>
             </div>
         );
     }
