@@ -1,47 +1,57 @@
 import React, { Component } from 'react';
-import Subject from "./components/Subject"
-import TOC from "./components/TOC"
-import MainText from "./components/MainText"
+// import Subject from "./components/Subject";
+import Content from "./components/Content";
+import TOC from "./components/TOC";
 import './App.css';
+import { element } from 'prop-types';
 
 class App extends Component {
     constructor(props) {
         super(props);
+        this.aClick = this.aClick.bind(this);
 
         this.state = {
-            Mode:'Welcome',
-            Subject:{title:'WEB', subTitle:'World Wide Web!'},
-            Welcome:{title:'Welcome', desc:'Hello, React!'},
-            contents:[
-                {id:1, subject:'WEB', title:'Welcome', subTitle:'World Wide Web!', desc:'HTML is for information'},
-                {id:2, subject:'HTML', title:'HTML', subTitle:'World Wide Web!', desc:'HTML is for information'},
-                {id:3, subject:'CSS', title:'CSS', subTitle:'World Wide Web!', desc:'CSS is for design'},
-                {id:4, subject:'JavaScript', title:'JavaScript', subTitle:'World Wide Web!', desc:'JavaScript is for interactive'},
+            mode: 'welcome',
+            subject: {title: 'WEB', sub: 'World Wide Web!'},
+            welcome: {title: 'Welcome', desc: 'Hello, React!!'},
+            contents: [
+                {id: 1, title: 'HTML', desc: 'HTML is ....'},
+                {id: 2, title: 'CSS', desc: 'CSS is ....'},
+                {id: 3, title: 'Javascript', desc: 'Javascript is ....'},
             ]
-        }
+        };
+    }
+
+    aClick(e) {
+        e.preventDefault();
+        this.setState({
+            mode: 'welcom',
+        });
     }
 
     render() {
 
-        let subject = null;
-        let mode = null;
-        let mainText = null;
-
-        if (this.state.Mode === 'Welcome') {
-            subject = this.state.Subject;
-            mode = this.state.Welcome;
-            mainText = this.state.Welcome;
-        } else if (this.state.Mode === 'Read') {
-            subject = this.state.contents[0];
-            mode = this.state.Subject;
-            mainText = this.state.contents[0];
+        var _title, _desc = null;
+        if (this.state.mode === 'welcome') {
+            _title = this.state.welcome.title;
+            _desc = this.state.welcome.desc;
+        } else {
+            _title = this.state.contents[0].title;
+            _desc = this.state.contents[0].desc;
         }
 
         return (
             <div className="App">
-                <Subject title={subject.title} subTitle={subject.subTitle}></Subject>
-                <TOC data={this.state.contents}></TOC>
-                <MainText title={mainText.title} text={mainText.desc}></MainText>
+                {/* <Subject
+                    title={this.state.subject.title}
+                    sub={this.state.subject.sub}>
+                </Subject> */}
+                <header>
+                    <h1><a href="/" onClick={this.aClick} >{this.state.subject.title}</a></h1>
+                    {this.state.subject.sub}
+                </header>
+                <TOC data={this.state.contents} ></TOC>
+                <Content title={_title} desc={_desc}></Content>
             </div>
         );
     }
