@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import Subject from "./components/Subject";
+import Subject from "./components/Subject";
 import Content from "./components/Content";
 import TOC from "./components/TOC";
 import './App.css';
@@ -9,9 +9,11 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.aClick = this.aClick.bind(this);
+        this.changeContent = this.changeContent.bind(this);
 
         this.state = {
-            mode: 'welcome',
+            mode: 'read',
+            selectd_content_id: 1,
             subject: {title: 'WEB', sub: 'World Wide Web!'},
             welcome: {title: 'Welcome', desc: 'Hello, React!!'},
             contents: [
@@ -25,7 +27,15 @@ class App extends Component {
     aClick(e) {
         e.preventDefault();
         this.setState({
-            mode: 'welcom',
+            mode: 'welcome',
+        });
+    }
+
+    changeContent(e, contentId) {
+        e.preventDefault();
+        this.setState({
+            mode: 'read',
+            selectd_content_id: Number(contentId)
         });
     }
 
@@ -36,21 +46,25 @@ class App extends Component {
             _title = this.state.welcome.title;
             _desc = this.state.welcome.desc;
         } else {
-            _title = this.state.contents[0].title;
-            _desc = this.state.contents[0].desc;
+            this.state.contents.forEach(element => {
+                if (element.id === this.state.selectd_content_id) {
+                    _title = element.title;
+                    _desc = element.desc;
+                }
+            });
         }
 
         return (
             <div className="App">
-                {/* <Subject
+                <Subject
                     title={this.state.subject.title}
-                    sub={this.state.subject.sub}>
-                </Subject> */}
-                <header>
-                    <h1><a href="/" onClick={this.aClick} >{this.state.subject.title}</a></h1>
-                    {this.state.subject.sub}
-                </header>
-                <TOC data={this.state.contents} ></TOC>
+                    sub={this.state.subject.sub}
+                    onChangePage={this.aClick}
+                >
+                </Subject>
+                <TOC data={this.state.contents}
+                    onChangeContent={this.changeContent}
+                ></TOC>
                 <Content title={_title} desc={_desc}></Content>
             </div>
         );
